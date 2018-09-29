@@ -123,29 +123,14 @@ public final class Utils {
                 //extract string value for key "sectionName"
                 String currentSection = currentArticle.getString("sectionName");
 
- /*
-                '               // For a given earthquake, extract the JSONObject associated with the
-                // key called "properties", which represents a list of all properties
-                // for that earthquake.
-                JSONObject properties = currentEarthquake.getJSONObject("properties");
+                //extract date value for key "webPublicationDate"
+                String currentDateTime = currentArticle.getString("webPublicationDate");
 
-                // Extract the value for the key called "mag"
-                double magnitude = properties.getDouble("mag");
+                //extract url value for key "webUrl"
+                String currentNewsArticleURL = currentArticle.getString("webUrl");
 
-                // Extract the value for the key called "place"
-                String location = properties.getString("place");
-
-                // Extract the value for the key called "time"
-                long time = properties.getLong("time");
-
-                // Extract the value for the key called "url"
-                String url = properties.getString("url");
-*/
-                // Create a new {@link Earthquake} object with the magnitude, location, time,
-                // and url from the JSON response.
-                NewsArticle newsArticle = new NewsArticle(currentTitle,currentSection);
-
-                // Add the new {@link Earthquake} to the list of earthquakes.
+                //create NewsArticle object and add to list
+                NewsArticle newsArticle = new NewsArticle(currentTitle,currentSection, currentDateTime, currentNewsArticleURL);
                 newsArticleList.add(newsArticle);
             }
 

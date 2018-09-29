@@ -3,19 +3,19 @@ package com.gmail.kol.c.arindam.dailynews;
 public class NewsArticle {
     private String webTitle;
     private String section;
-    private long publishDate;
+    private String publishDate;
     private String authorName;
     private String newsUrl;
 
-    public NewsArticle(String webTitle, String section) {
+    public NewsArticle(String webTitle, String section, String publishDate, String newsUrl) {
         this.webTitle = webTitle;
         this.section = section;
-        this.publishDate = 0;
+        this.publishDate = publishDate;
         this.authorName = null;
-        this.newsUrl = null;
+        this.newsUrl = newsUrl;
     }
 
-    public NewsArticle(String webTitle, String section, long publishDate, String authorName, String newsUrl) {
+    public NewsArticle(String webTitle, String section, String publishDate, String authorName, String newsUrl) {
         this.webTitle = webTitle;
         this.section = section;
         this.publishDate = publishDate;
@@ -31,7 +31,7 @@ public class NewsArticle {
         return section;
     }
 
-    public long getPublishDate() {
+    public String getPublishDate() {
         return publishDate;
     }
 
