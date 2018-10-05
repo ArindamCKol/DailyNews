@@ -1,26 +1,23 @@
 package com.gmail.kol.c.arindam.dailynews;
 
+import android.graphics.Bitmap;
+import java.util.List;
+
 public class NewsArticle {
     private String webTitle;
     private String section;
     private String publishDate;
-    private String authorName;
+    private List<String> authorNames;
     private String newsUrl;
+    private Bitmap newsImage;
 
-    public NewsArticle(String webTitle, String section, String publishDate, String newsUrl) {
+    public NewsArticle(String webTitle, String section, String publishDate, List<String> authorNames, String newsUrl, Bitmap newsImage) {
         this.webTitle = webTitle;
         this.section = section;
         this.publishDate = publishDate;
-        this.authorName = null;
+        this.authorNames = authorNames;
         this.newsUrl = newsUrl;
-    }
-
-    public NewsArticle(String webTitle, String section, String publishDate, String authorName, String newsUrl) {
-        this.webTitle = webTitle;
-        this.section = section;
-        this.publishDate = publishDate;
-        this.authorName = authorName;
-        this.newsUrl = newsUrl;
+        this.newsImage = newsImage;
     }
 
     public String getWebTitle() {
@@ -35,11 +32,15 @@ public class NewsArticle {
         return publishDate;
     }
 
-    public String getAuthorName() {
-        return authorName;
+    public List<String> getAuthorNames() {
+        return authorNames;
     }
 
     public String getNewsUrl() {
         return newsUrl;
+    }
+
+    public Bitmap getNewsImage() {
+        return newsImage;
     }
 }

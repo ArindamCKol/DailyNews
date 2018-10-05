@@ -1,5 +1,7 @@
 package com.gmail.kol.c.arindam.dailynews;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -27,7 +29,7 @@ public final class Utils {
     private Utils () {}
 
     //convert string to url
-    private static URL createUrl(String urlText) {
+    public static URL createUrl(String urlText) {
         URL url = null;
         try {
             url = new URL(urlText);
@@ -76,6 +78,45 @@ public final class Utils {
         return jsonResponse;
     }
 
+    //get json string from url
+    private static Bitmap getNewsImage (URL url) throws IOException {
+        Bitmap bitmap = null;
+
+        // if url is null return blank json string
+        if (url == null) {
+            return null;
+        }
+
+        //make network connection
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
+
+            // If response code 200, success. create json string.
+            if (urlConnection.getResponseCode() == 200) {
+                inputStream = urlConnection.getInputStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
+            } else {
+                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+            }
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Unable to access json result.", e);
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        }
+        return bitmap;
+    }
+
     //convert url response to string
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
@@ -112,8 +153,11 @@ public final class Utils {
             //extract json array with the key "result" which contains all the news article details
             JSONArray articleArray = responseObject.getJSONArray("results");
 
+            //get article array length
+            int count =  articleArray.length();
+
             //from article array extract individual article details
-            for (int i = 0; i < articleArray.length(); i++) {
+            for (int i = 0; i < count; i++) {
 
                 JSONObject currentArticle = articleArray.getJSONObject(i);
 
@@ -129,14 +173,38 @@ public final class Utils {
                 //extract url value for key "webUrl"
                 String currentNewsArticleURL = currentArticle.getString("webUrl");
 
+                //extract nestled jsonobject for key "fields"
+                JSONObject fieldObject = currentArticle.getJSONObject("fields");
+
+                //extract image url value for key "thumbnail"
+                String currentImageURL = fieldObject.getString("thumbnail");
+                URL imageURL = createUrl(currentImageURL);
+                Bitmap currentImage = getNewsImage(imageURL);
+
+                //extract json array for key "tags"
+                JSONArray tagsArray = currentArticle.getJSONArray("tags");
+
+                //extract author name for key "webTitle"
+                List<String> currentAuthors = new ArrayList<>();
+                int length = tagsArray.length();
+                if(length>0) {
+                    for (int j=0; j<length; j++) {
+                        JSONObject currentTag = tagsArray.getJSONObject(j);
+                        String temp = currentTag.getString("webTitle");
+                        currentAuthors.add(temp);
+                    }
+                } else { currentAuthors = null; }
+
                 //create NewsArticle object and add to list
-                NewsArticle newsArticle = new NewsArticle(currentTitle,currentSection, currentDateTime, currentNewsArticleURL);
+                NewsArticle newsArticle = new NewsArticle(currentTitle,currentSection, currentDateTime, currentAuthors, currentNewsArticleURL, currentImage);
                 newsArticleList.add(newsArticle);
             }
 
         } catch (JSONException e) {
             // catch the exception here & print a log message
             Log.e("Utils", "Problem parsing json results", e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         // Return the list of earthquakes
