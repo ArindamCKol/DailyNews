@@ -10,14 +10,17 @@ public class NewsArticle {
     private List<String> authorNames;
     private String newsUrl;
     private Bitmap newsImage;
+    private int pages;
 
-    public NewsArticle(String webTitle, String section, String publishDate, List<String> authorNames, String newsUrl, Bitmap newsImage) {
+    public NewsArticle(String webTitle, String section, String publishDate,
+                       List<String> authorNames, String newsUrl, Bitmap newsImage, int pages) {
         this.webTitle = webTitle;
         this.section = section;
         this.publishDate = publishDate;
         this.authorNames = authorNames;
         this.newsUrl = newsUrl;
         this.newsImage = newsImage;
+        this.pages = pages;
     }
 
     public String getWebTitle() {
@@ -42,5 +45,9 @@ public class NewsArticle {
 
     public Bitmap getNewsImage() {
         return newsImage;
+    }
+
+    public int getPages() {
+        return pages;
     }
 }

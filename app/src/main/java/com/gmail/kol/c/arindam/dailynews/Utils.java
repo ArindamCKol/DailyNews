@@ -150,6 +150,9 @@ public final class Utils {
             //extract the json object with the key "response",
             JSONObject responseObject = baseJsonResponse.getJSONObject("response");
 
+            //extract total number of pages available for the key "pages"
+            int totalPages = responseObject.getInt("pages");
+
             //extract json array with the key "result" which contains all the news article details
             JSONArray articleArray = responseObject.getJSONArray("results");
 
@@ -196,7 +199,8 @@ public final class Utils {
                 } else { currentAuthors = null; }
 
                 //create NewsArticle object and add to list
-                NewsArticle newsArticle = new NewsArticle(currentTitle,currentSection, currentDateTime, currentAuthors, currentNewsArticleURL, currentImage);
+                NewsArticle newsArticle = new NewsArticle(currentTitle,currentSection,
+                        currentDateTime, currentAuthors, currentNewsArticleURL, currentImage, totalPages);
                 newsArticleList.add(newsArticle);
             }
 
