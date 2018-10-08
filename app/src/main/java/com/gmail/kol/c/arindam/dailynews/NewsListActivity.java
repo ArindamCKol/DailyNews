@@ -34,8 +34,8 @@ public class NewsListActivity extends AppCompatActivity implements LoaderManager
 
     //adapter for news list
     private NewsListAdapter adapter;
-
-    View loadingIndicator;
+    private TextView emptyView;
+    private View loadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class NewsListActivity extends AppCompatActivity implements LoaderManager
 
         //create views and link to resources
         ListView newsListView = findViewById(R.id.news_list);
-        TextView emptyView = findViewById(R.id.empty_view);
+        emptyView = findViewById(R.id.empty_view);
         newsListView.setEmptyView(emptyView);
         loadingIndicator = findViewById(R.id.loading_indicator);
         LayoutInflater inflater = getLayoutInflater();
@@ -99,7 +99,7 @@ public class NewsListActivity extends AppCompatActivity implements LoaderManager
             loadingIndicator.setVisibility(View.GONE);
 
             //show empty text message
-            emptyView.setText(R.string.empty_text);
+            emptyView.setText(R.string.no_network);
         }
     }
 
@@ -127,7 +127,13 @@ public class NewsListActivity extends AppCompatActivity implements LoaderManager
         loadingIndicator.setVisibility(View.GONE);
 
         adapter.clear();
-        adapter.addAll(newsArticleList);
+
+        //check that List has items, if not show empty text
+        if (newsArticleList == null || newsArticleList.isEmpty()) {
+            emptyView.setText(R.string.no_data);
+        } else {
+            adapter.addAll(newsArticleList);
+        }
     }
 
     @Override

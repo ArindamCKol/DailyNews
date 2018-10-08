@@ -25,6 +25,10 @@ public final class Utils {
     //Error massage tag
     private static final String LOG_TAG = Utils.class.getSimpleName();
 
+    //time out value in milliseconds
+    private static final int READ_TIMEOUT_VALUE = 10000;
+    private static final int CONNECT_TIMEOUT_VALUE = 15000;
+
     //blank constructor for final class
     private Utils () {}
 
@@ -53,13 +57,13 @@ public final class Utils {
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(READ_TIMEOUT_VALUE);
+            urlConnection.setConnectTimeout(CONNECT_TIMEOUT_VALUE);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
             // If response code 200, success. create json string.
-            if (urlConnection.getResponseCode() == 200) {
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
@@ -165,22 +169,22 @@ public final class Utils {
                 JSONObject currentArticle = articleArray.getJSONObject(i);
 
                 //extract string value for key "webTitle"
-                String currentTitle = currentArticle.getString("webTitle");
+                String currentTitle = currentArticle.optString("webTitle");
 
                 //extract string value for key "sectionName"
-                String currentSection = currentArticle.getString("sectionName");
+                String currentSection = currentArticle.optString("sectionName");
 
                 //extract date value for key "webPublicationDate"
-                String currentDateTime = currentArticle.getString("webPublicationDate");
+                String currentDateTime = currentArticle.optString("webPublicationDate");
 
                 //extract url value for key "webUrl"
-                String currentNewsArticleURL = currentArticle.getString("webUrl");
+                String currentNewsArticleURL = currentArticle.optString("webUrl");
 
                 //extract nestled jsonobject for key "fields"
                 JSONObject fieldObject = currentArticle.getJSONObject("fields");
 
                 //extract image url value for key "thumbnail"
-                String currentImageURL = fieldObject.getString("thumbnail");
+                String currentImageURL = fieldObject.optString("thumbnail");
                 URL imageURL = createUrl(currentImageURL);
                 Bitmap currentImage = getNewsImage(imageURL);
 
@@ -193,7 +197,7 @@ public final class Utils {
                 if(length>0) {
                     for (int j=0; j<length; j++) {
                         JSONObject currentTag = tagsArray.getJSONObject(j);
-                        String temp = currentTag.getString("webTitle");
+                        String temp = currentTag.optString("webTitle");
                         currentAuthors.add(temp);
                     }
                 } else { currentAuthors = null; }

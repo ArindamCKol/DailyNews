@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Daily News - The Guardian</string>
-    <string name="empty_text">No Network Connection Found</string>
+    <string name="no_network">No Network Connection Found</string>
+    <string name="no_data">No News article found</string>
     <string name="more">more....</string>
 </resources>
