@@ -3,4 +3,36 @@
     <string name="no_network">No Network Connection Found</string>
     <string name="no_data">No News article found</string>
     <string name="more">more....</string>
+
+    <!-- strings for setting activity -->
+    <string name="settings_menu_item">Settings</string>
+    <string name="settings_title">Daily News Settings</string>
+
+    <!-- strings for order by option in setting activity -->
+    <string name="order_by_label">Order By</string>
+    <string name="order_by_key">order-by</string>
+    <string name="order_by_default">@string/order_by_oldest_value</string>
+
+    <string name="order_by_newest_label">Newest</string>
+    <string name="order_by_newest_value">newest</string>
+
+    <string name="order_by_oldest_label">Oldest</string>
+    <string name="order_by_oldest_value">oldest</string>
+
+    <string name="order_by_relevance_label">Relevance</string>
+    <string name="order_by_relevance_value">relevance</string>
+
+    <!-- strings for use-date option in setting activity -->
+    <string name="use_date_label">Article Type</string>
+    <string name="use_date_key">use-date</string>
+    <string name="use_date_default">@string/use_date_published_value</string>
+
+    <string name="use_date_published_label">Published</string>
+    <string name="use_date_published_value">published</string>
+
+    <string name="use_date_edition_label">Newspaper Edition</string>
+    <string name="use_date_edition_value">newspaper-edition</string>
+
+    <string name="use_date_modified_label">Last Modified</string>
+    <string name="use_date_modified_value">last-modified</string>
 </resources>

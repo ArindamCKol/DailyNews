@@ -96,13 +96,13 @@ public final class Utils {
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(READ_TIMEOUT_VALUE);
+            urlConnection.setConnectTimeout(CONNECT_TIMEOUT_VALUE);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
             // If response code 200, success. create json string.
-            if (urlConnection.getResponseCode() == 200) {
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 inputStream = urlConnection.getInputStream();
                 bitmap = BitmapFactory.decodeStream(inputStream);
             } else {

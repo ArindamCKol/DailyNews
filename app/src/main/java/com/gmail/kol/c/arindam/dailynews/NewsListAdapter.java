@@ -43,7 +43,7 @@ public class NewsListAdapter extends ArrayAdapter <NewsArticle> {
             int count = authorList.size();
             for (int i=0; i<count; i++) {
                 if(i==(count-1)) { authorNames.append(authorList.get(i)); }
-                else { authorNames.append((authorList.get(i)+ ", ")); }
+                else { authorNames.append((authorList.get(i) + ", ")); }
             }
             authorTexView.setVisibility(View.VISIBLE);
             authorTexView.setText(authorNames.toString());
